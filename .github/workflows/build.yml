@@ -16,6 +16,9 @@ jobs:
       matrix:
         distribution: [ 'zulu', 'adopt', 'liberica' ]
         java-version: [ '11.0.0', '11.0.1', '11.0.2', '11.0.3', '11.0.4', '11.0.5', '11.0.6', '11.0.7', '11.0.8', '11.0.9', '11.0.10', '11.0.11', '11.0.12', '11.0.13', '11.0.14' ]
+        exclude:
+          - distribution: zulu
+            java-version: 11.0.0
         include:
           - distribution: temurin
             java-version: 11.0.12
@@ -39,4 +42,4 @@ jobs:
         distribution: ${{ matrix.distribution }}
     - name: Build with javac
       if: ${{ steps.setup-java.outcome == 'success' }}
-      run: javac MethodReferenceBug.java
+      run: javac -Xdiags:verbose MethodReferenceBug.java
