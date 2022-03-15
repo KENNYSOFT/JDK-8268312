@@ -2,7 +2,7 @@ name: build
 
 on:
   push:
-    branches: [ main ]
+    branches: [ '**' ]
   pull_request:
     branches: [ main ]
 
@@ -14,8 +14,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        distribution: [ 'temurin', 'zulu', 'adopt', 'liberica', 'microsoft' ]
-        java-version: [ '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18-ea' ]
+        distribution: [ 'zulu', 'adopt', 'liberica' ]
+        java-version: [ '11.0.0', '11.0.1', '11.0.2', '11.0.3', '11.0.4', '11.0.5', '11.0.6', '11.0.7', '11.0.8', '11.0.9', '11.0.10', '11.0.11', '11.0.12', '11.0.13', '11.0.14' ]
+        include:
+          - distribution: temurin
+            java-version: 11.0.12
+          - distribution: temurin
+            java-version: 11.0.13
+          - distribution: temurin
+            java-version: 11.0.14
+          - distribution: microsoft
+            java-version: 11.0.13
 
     name: ${{ matrix.distribution }} JDK ${{ matrix.java-version }}
 
