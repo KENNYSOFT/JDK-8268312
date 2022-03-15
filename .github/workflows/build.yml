@@ -1,0 +1,32 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: [ '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18-ea' ]
+        distribution: [ 'temurin', 'zulu', 'adopt', 'liberica', 'microsoft' ]
+
+    name: ${{ matrix.distribution }} JDK ${{ matrix.java-version }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up ${{ matrix.distribution }} JDK ${{ matrix.java-version }}
+      uses: actions/setup-java@v2
+      continue-on-error: true
+      with:
+        java-version: ${{ matrix.java-version }}
+        distribution: ${{ matrix.distribution }}
+    - name: Build with javac
+      if: ${{ success() }}
+      run: javac MethodReferenceBug.java
