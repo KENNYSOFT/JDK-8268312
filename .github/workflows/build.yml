@@ -30,4 +30,4 @@ jobs:
         distribution: ${{ matrix.distribution }}
     - name: Build with javac
       if: ${{ steps.setup-java.outcome == 'success' }}
-      run: javac MethodReferenceBug.java
+      run: javac -Xdiags:verbose MethodReferenceBug.java
